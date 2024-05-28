@@ -8,7 +8,7 @@
 #import <react/renderer/components/RNCardFormViewSpec/RCTComponentViewHelpers.h>
 
 #import "RCTFabricComponentsPlugins.h"
-//#import "VideoPlayer-Swift.h"
+#import "CardFormView-Swift.h"
 
 using namespace facebook::react;
 
@@ -17,8 +17,7 @@ using namespace facebook::react;
 @end
 
 @implementation RNCardFormView {
-//    VideoPlayer * _swiftPlayer;
-UIView *_view;
+    CardFormView *_view;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -32,14 +31,8 @@ UIView *_view;
     if (self) {
         static const auto defaultProps = std::make_shared<const RNCardFormViewProps>();
         _props = defaultProps;
-        _view = [[UIView alloc] init];
+        _view = [[CardFormView alloc] init];
         self.contentView = _view;
-        //The remaining part of the initializer is standard Objective-C code to create views and layout them with AutoLayout. Here we can change whatever we want to.
-//        _swiftPlayer = [[VideoPlayer alloc] init];
-//        _swiftPlayer.delegate = self;
-//
-//
-//        self.contentView = _swiftPlayer;
     }
 
     return self;
@@ -74,56 +67,34 @@ UIView *_view;
     //     NSString * reachabilityNetworkTestingURLToConvert = [[NSString alloc] initWithUTF8String: newViewProps.reachabilityNetworkTestingURL.c_str()];
     //     _swiftPlayer.reachabilityNetworkTestingURL = reachabilityNetworkTestingURLToConvert;
     // }
+    if (_view.style != newViewProps.style) {
+        _view.style = newViewProps.style;
+    }
 
-    // if (_swiftPlayer.looped != newViewProps.looped) {
-    //     _swiftPlayer.looped = newViewProps.looped;
-    // }
+    if (_view.autofocus != newViewProps.autofocus) {
+        _view.autofocus = newViewProps.autofocus;
+    }
+    
+    if (_view.testID != newViewProps.testID) {
+        _view.testID = newViewProps.testID;
+    }
 
-    // if (_swiftPlayer.muted != newViewProps.muted) {
-    //     _swiftPlayer.muted = newViewProps.muted;
-    // }
+    if (_view.disabled != newViewProps.disabled) {
+        _view.disabled = newViewProps.disabled;
+    }
+    
+    if (_view.cardStyle != newViewProps.cardStyle) {
+        _view.cardStyle = newViewProps.cardStyle;
+    }
 
-    // if (_swiftPlayer.paused != newViewProps.paused) {
-    //     _swiftPlayer.paused = newViewProps.paused;
-    // }
-
-    // if (_swiftPlayer.suspended != newViewProps.suspended) {
-    //     _swiftPlayer.suspended = newViewProps.suspended;
-    // }
-
-    // if (_swiftPlayer.autoRecoveryEnabled != newViewProps.autoRecoveryEnabled) {
-    //     _swiftPlayer.autoRecoveryEnabled = newViewProps.autoRecoveryEnabled;
-    // }
-
-    // if (_swiftPlayer.reverseProxyEnabled != newViewProps.reverseProxyEnabled) {
-    //     _swiftPlayer.reverseProxyEnabled = newViewProps.reverseProxyEnabled;
-    // }
-
-    // if (_swiftPlayer.isLive != newViewProps.isLive) {
-    //     _swiftPlayer.isLive = newViewProps.isLive;
-    // }
-
-    // if (_swiftPlayer.shouldPlayFromLastPlayback != newViewProps.shouldPlayFromLastPlayback) {
-    //     _swiftPlayer.shouldPlayFromLastPlayback = newViewProps.shouldPlayFromLastPlayback;
-    // }
-
-    // if (_swiftPlayer.waitToMinimizeStalling != newViewProps.waitToMinimizeStalling) {
-    //     _swiftPlayer.waitToMinimizeStalling = newViewProps.waitToMinimizeStalling;
-    // }
-
-    // if (_swiftPlayer.itemCurrentTime != newViewProps.itemCurrentTime) {
-    //     _swiftPlayer.itemCurrentTime = newViewProps.itemCurrentTime;
-
-    // }
-
-    // if (_swiftPlayer.preferredForwardBufferDuration != newViewProps.preferredForwardBufferDuration) {
-    //     _swiftPlayer.preferredForwardBufferDuration = newViewProps.preferredForwardBufferDuration;
-    // }
-
-    // if (_swiftPlayer.rate != newViewProps.rate) {
-    //     _swiftPlayer.rate = newViewProps.rate;
-    // }
-
+    if (_view.preferredNetworks != newViewProps.preferredNetworks) {
+        _view.preferredNetworks = newViewProps.preferredNetworks;
+    }
+    
+    if (_view.dangerouslyGetFullCardDetails != newViewProps.dangerouslyGetFullCardDetails) {
+        _view.dangerouslyGetFullCardDetails = newViewProps.dangerouslyGetFullCardDetails;
+    }
+    
     [super updateProps:props oldProps:oldProps];
 }
 
