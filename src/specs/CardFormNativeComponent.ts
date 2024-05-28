@@ -27,5 +27,5 @@ export interface NativeProps extends ViewProps {
 }
 
 export default codegenNativeComponent<NativeProps>(
-  'CardFormNativeComponent'
+  'CardFormView'
 ) as HostComponent<NativeProps>;
