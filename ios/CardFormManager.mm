@@ -15,14 +15,14 @@ RCT_EXTERN_METHOD(blur:(nonnull NSNumber*) reactTag)
 
 
 #ifdef RCT_NEW_ARCH_ENABLED
-RCT_EXPORT_MODULE(RNVideoPlayer)
+RCT_EXPORT_MODULE(RNCardFormView)
 - (UIView *)view {
-  return [[RNVideoPlayer alloc] init];
+  return [[RNCardFormView alloc] init];
 }
 #else
 // Non fabic implementation
-RCT_EXPORT_MODULE(VideoPlayer)
+RCT_EXPORT_MODULE(CardFormView)
 - (UIView *)view {
-  return [[VideoPlayer alloc] initWithNewArch: NO];
+  return [[CardFormView alloc] init];
 }
 #endif
