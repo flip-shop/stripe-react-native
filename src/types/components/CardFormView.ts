@@ -4,13 +4,13 @@ import type { CardBrand } from '../Token';
 export type FieldName = 'CardNumber' | 'Cvc' | 'ExpiryDate' | 'PostalCode';
 
 export interface Details {
-  last4: string;
-  expiryMonth: number;
-  expiryYear: number;
-  postalCode?: string;
-  brand: CardBrand;
-  complete: boolean;
-  country: string;
+  readonly last4: string;
+  readonly expiryMonth: number;
+  readonly expiryYear: number;
+  readonly postalCode?: string;
+  readonly brand: CardBrand;
+  readonly complete: boolean;
+  readonly country: string;
   /**
    * WARNING: Full card details are only returned when the `dangerouslyGetFullCardDetails` prop
    * on the `CardField` component is set to `true`.
@@ -18,35 +18,35 @@ export interface Details {
    * Make sure that you're not mistakenly logging or storing full card details!
    * See the docs for details: https://stripe.com/docs/security/guide#validating-pci-compliance
    */
-  number?: string;
-  cvc?: string;
+  readonly number?: string;
+  readonly cvc?: string;
 }
 
 export interface Styles {
-  backgroundColor?: string;
+  readonly backgroundColor?: string;
   // disabledBackgroundColor?: string;
   // type?: 'borderless' | 'standard';
-  borderWidth?: number;
-  borderColor?: string;
-  borderRadius?: number;
-  textColor?: string;
-  fontSize?: number;
-  placeholderColor?: string;
-  cursorColor?: string;
-  textErrorColor?: string;
-  fontFamily?: string;
+  readonly borderWidth?: number;
+  readonly borderColor?: string;
+  readonly borderRadius?: number;
+  readonly textColor?: string;
+  readonly fontSize?: number;
+  readonly placeholderColor?: string;
+  readonly cursorColor?: string;
+  readonly textErrorColor?: string;
+  readonly fontFamily?: string;
 }
 
 export interface Placeholders {
-  number?: string;
-  expiration?: string;
-  cvc?: string;
-  postalCode?: string;
+  readonly number?: string;
+  readonly expiration?: string;
+  readonly cvc?: string;
+  readonly postalCode?: string;
 }
 
 export type DefaultValues = {
   /** The 2-letter country code for the country selected by default on Android. If this is null, it is set by the device's configured region in the Settings app. */
-  countryCode?: string;
+  readonly countryCode?: string;
 };
 
 /**

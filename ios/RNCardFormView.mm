@@ -8,7 +8,9 @@
 #import <react/renderer/components/RNCardFormViewSpec/RCTComponentViewHelpers.h>
 
 #import "RCTFabricComponentsPlugins.h"
-#import "CardFormView-Swift.h"
+//#import "CardFormView-Swift.h"
+//#import "StripeSdk-Bridging-Header.h"
+#import "stripe_react_native-Swift.h"
 
 using namespace facebook::react;
 
