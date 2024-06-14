@@ -17,26 +17,23 @@ export interface NativeProps extends ViewProps {
   readonly disabled?: boolean;
   readonly cardStyle?: Styles; //
   readonly preferredNetworks?: Array<Int32>;
-
-  /** Android only */
+  // /** Android only */
   readonly placeholders?: Placeholders; //
-  /** Android only */
+  // /** Android only */
   readonly defaultValues?: DefaultValues;
-
   readonly onFormComplete?: DirectEventHandler<CardDetails>;
-
   readonly dangerouslyGetFullCardDetails?: boolean;
 }
 
-type CardFormNativeComponentType = HostComponent<NativeProps>;
+type RNCardFormViewNativeComponentType = HostComponent<NativeProps>;
 
-export default codegenNativeComponent<NativeProps>(
-  'RNCardFormView'
-) as CardFormNativeComponentType;
+// export default codegenNativeComponent<NativeProps>(
+//   'RNCardFormView'
+// ) as RNCardFormViewNativeComponentType;
 
 interface NativeCommands {
-  focus: (viewRef: React.ElementRef<CardFormNativeComponentType>) => void;
-  blur: (viewRef: React.ElementRef<CardFormNativeComponentType>) => void;
+  focus: (viewRef: React.ElementRef<RNCardFormViewNativeComponentType>) => void;
+  blur: (viewRef: React.ElementRef<RNCardFormViewNativeComponentType>) => void;
 }
 
 export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({

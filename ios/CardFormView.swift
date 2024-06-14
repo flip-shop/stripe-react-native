@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import Stripe
 
-class CardFormView: UIView, STPCardFormViewDelegate {
+@objc public class CardFormView: UIView, STPCardFormViewDelegate {
     public var cardForm: STPCardFormView?
     
     public var cardParams: STPPaymentMethodCardParams? = nil
@@ -19,7 +19,7 @@ class CardFormView: UIView, STPCardFormViewDelegate {
         }
     }
     
-    override func didSetProps(_ changedProps: [String]!) {
+    public override func didSetProps(_ changedProps: [String]!) {
         if let cardForm = self.cardForm {
             cardForm.removeFromSuperview()
         }
@@ -44,7 +44,7 @@ class CardFormView: UIView, STPCardFormViewDelegate {
         }
     }
     
-    func cardFormView(_ form: STPCardFormView, didChangeToStateComplete complete: Bool) {
+    public func cardFormView(_ form: STPCardFormView, didChangeToStateComplete complete: Bool) {
         if onFormComplete != nil {
             let brand = STPCardValidator.brand(forNumber: cardForm?.cardParams?.card?.number ?? "")
             var cardData: [String: Any?] = [
@@ -111,7 +111,7 @@ class CardFormView: UIView, STPCardFormViewDelegate {
         super.init(frame: frame)
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         cardForm?.frame = self.bounds
     }
     
