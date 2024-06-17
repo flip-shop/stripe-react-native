@@ -27,9 +27,9 @@ export interface NativeProps extends ViewProps {
 
 type RNCardFormViewNativeComponentType = HostComponent<NativeProps>;
 
-// export default codegenNativeComponent<NativeProps>(
-//   'RNCardFormView'
-// ) as RNCardFormViewNativeComponentType;
+export default codegenNativeComponent<NativeProps>(
+  'RNCardFormView'
+) as RNCardFormViewNativeComponentType;
 
 interface NativeCommands {
   focus: (viewRef: React.ElementRef<RNCardFormViewNativeComponentType>) => void;

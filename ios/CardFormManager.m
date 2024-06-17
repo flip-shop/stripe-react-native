@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTViewManager.h>
-#import "stripe_react_native-Swift.h"
+//#import "stripe_react_native-Swift.h"
 @interface RCT_EXTERN_MODULE(CardFormManager, RCTViewManager)
 RCT_EXPORT_VIEW_PROPERTY(onFormComplete, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(dangerouslyGetFullCardDetails, BOOL)
