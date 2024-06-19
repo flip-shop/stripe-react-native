@@ -18,7 +18,14 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/**/*.{h,m,mm,swift}'
   s.exclude_files = 'ios/Tests/'
 
-  install_modules_dependencies(s)
+     # This guard prevent to install the dependencies when we run `pod install` in the old architecture.
+  if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
+      s.pod_target_xcconfig    = {
+          "OTHER_SWIFT_FLAGS" => "-DNEW_ARCH_ENABLED_SWIFT"
+      }
+    install_modules_dependencies(s)
+  end
+
   
   s.test_spec 'Tests' do |test_spec|
     test_spec.source_files = 'ios/Tests/**/*.{m,swift}'

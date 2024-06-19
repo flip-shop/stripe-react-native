@@ -5,6 +5,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class STPCardFormView;
+
+@protocol STPCardFormViewDelegate <NSObject>
+- (void)cardFormView:(STPCardFormView *)form didChangeToStateComplete:(BOOL)complete;
+@end
+
 @interface RNCardFormView : RCTViewComponentView
 @end
 
