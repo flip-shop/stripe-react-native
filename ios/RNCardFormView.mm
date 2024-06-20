@@ -6,6 +6,7 @@
 #import <react/renderer/components/RNCardFormViewSpec/EventEmitters.h>
 #import <react/renderer/components/RNCardFormViewSpec/Props.h>
 #import <react/renderer/components/RNCardFormViewSpec/RCTComponentViewHelpers.h>
+#import <React/RCTConversions.h>
 
 #import "RCTFabricComponentsPlugins.h"
 #import "stripe_react_native-Swift.h"
@@ -56,17 +57,6 @@ using namespace facebook::react;
    const auto &oldViewProps = *std::static_pointer_cast<RNCardFormViewProps const>(_props);
    const auto &newViewProps = *std::static_pointer_cast<RNCardFormViewProps const>(props);
 
-
-   //Check every prop and update it if needed
-   // if (oldViewProps.src != newViewProps.src) {
-   //     NSString * srcToConvert = [[NSString alloc] initWithUTF8String: newViewProps.src.c_str()];
-   //     _swiftPlayer.src = srcToConvert;
-   // }
-
-   // if (oldViewProps.reachabilityNetworkTestingURL != newViewProps.reachabilityNetworkTestingURL) {
-   //     NSString * reachabilityNetworkTestingURLToConvert = [[NSString alloc] initWithUTF8String: newViewProps.reachabilityNetworkTestingURL.c_str()];
-   //     _swiftPlayer.reachabilityNetworkTestingURL = reachabilityNetworkTestingURLToConvert;
-   // }
 //    if (_view.style != newViewProps.style) {
 //        _view.style = newViewProps.style;
 //    }
@@ -74,17 +64,25 @@ using namespace facebook::react;
    if (_view.autofocus != newViewProps.autofocus) {
        _view.autofocus = newViewProps.autofocus;
    }
-    
-//    if (_view.testID != newViewProps.testID) {
-//        _view.testID = newViewProps.testID;
-//    }
 
     if (_view.disabled != newViewProps.disabled) {
         _view.disabled = newViewProps.disabled;
     }
    
-//    if (_view.cardStyle != newViewProps.cardStyle) {
-//        _view.cardStyle = newViewProps.cardStyle;
+//    if (_view.cardStyle != newViewProps.cardStyle) { // easy way to compare?
+    RNCardFormViewCardStyleStruct cardStyle = newViewProps.cardStyle;
+    _view.cardStyle = @{
+        @"backgroundColor": RCTNSStringFromString(cardStyle.backgroundColor),
+        @"borderWidth": @(cardStyle.borderWidth),
+        @"borderColor": RCTNSStringFromString(cardStyle.borderColor),
+        @"borderRadius": @(cardStyle.borderRadius),
+        @"textColor": RCTNSStringFromString(cardStyle.textColor),
+        @"fontSize": @(cardStyle.fontSize),
+        @"placeholderColor": RCTNSStringFromString(cardStyle.placeholderColor),
+        @"cursorColor": RCTNSStringFromString(cardStyle.cursorColor),
+        @"textErrorColor": RCTNSStringFromString(cardStyle.textErrorColor),
+        @"fontFamily": RCTNSStringFromString(cardStyle.fontFamily)
+    };
 //    }
 
 //    if (_view.preferredNetworks != newViewPr ops.preferredNetworks) { // easy way to compare without iterating?

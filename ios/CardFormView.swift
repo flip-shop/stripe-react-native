@@ -39,7 +39,7 @@ import UIKit
         setStyles()
     }
 
-    @objc var cardStyle: NSDictionary = .init() {
+    @objc public var cardStyle: NSDictionary = .init() {
         didSet {
             setStyles()
         }
