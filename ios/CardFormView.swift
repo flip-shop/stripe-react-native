@@ -1,49 +1,50 @@
 import Foundation
-import UIKit
 import Stripe
+import UIKit
 
 @objc public class CardFormView: UIView, STPCardFormViewDelegate {
     public var cardForm: STPCardFormView?
-    
+
     public var cardParams: STPPaymentMethodCardParams? = nil
-    
-    @objc var dangerouslyGetFullCardDetails: Bool = false
+
+    @objc public var dangerouslyGetFullCardDetails: Bool = false
     @objc var onFormComplete: RCTDirectEventBlock?
-    @objc var autofocus: Bool = false
-    @objc var disabled: Bool = false
-    @objc var preferredNetworks: Array<Int>? {
+    @objc public var autofocus: Bool = false
+    @objc public var disabled: Bool = false
+    @objc public var preferredNetworks: [Int]? {
         didSet {
-            if let preferredNetworks = preferredNetworks {
+            if let preferredNetworks {
                 cardForm?.preferredNetworks = preferredNetworks.map(Mappers.intToCardBrand).compactMap { $0 }
             }
         }
     }
-    
-    public override func didSetProps(_ changedProps: [String]!) {
-        if let cardForm = self.cardForm {
+
+    override public func didSetProps(_ changedProps: [String]!) {
+        if let cardForm {
             cardForm.removeFromSuperview()
         }
-        
-        let style = self.cardStyle["type"] as? String == "borderless" ? STPCardFormViewStyle.borderless : STPCardFormViewStyle.standard
+
+        let style = cardStyle["type"] as? String == "borderless" ? STPCardFormViewStyle
+            .borderless : STPCardFormViewStyle.standard
         let _cardForm = STPCardFormView(style: style)
         _cardForm.delegate = self
         _cardForm.isUserInteractionEnabled = !disabled
-        
+
         if autofocus == true {
             let _ = _cardForm.becomeFirstResponder()
         }
-        
-        self.cardForm = _cardForm
-        self.addSubview(_cardForm)
+
+        cardForm = _cardForm
+        addSubview(_cardForm)
         setStyles()
     }
-    
-    @objc var cardStyle: NSDictionary = NSDictionary() {
+
+    @objc var cardStyle: NSDictionary = .init() {
         didSet {
             setStyles()
         }
     }
-    
+
     public func cardFormView(_ form: STPCardFormView, didChangeToStateComplete complete: Bool) {
         if onFormComplete != nil {
             let brand = STPCardValidator.brand(forNumber: cardForm?.cardParams?.card?.number ?? "")
@@ -54,30 +55,30 @@ import Stripe
                 "brand": Mappers.mapFromCardBrand(brand) ?? NSNull(),
                 "last4": cardForm?.cardParams?.card?.last4 ?? "",
                 "postalCode": cardForm?.cardParams?.billingDetails?.address?.postalCode ?? "",
-                "country": cardForm?.cardParams?.billingDetails?.address?.country
+                "country": cardForm?.cardParams?.billingDetails?.address?.country,
             ]
-            
-            if (dangerouslyGetFullCardDetails) {
+
+            if dangerouslyGetFullCardDetails {
                 cardData["number"] = cardForm?.cardParams?.card?.number ?? ""
                 cardData["cvc"] = cardForm?.cardParams?.card?.cvc ?? ""
             }
-            if (complete) {
-                self.cardParams = cardForm?.cardParams?.card
+            if complete {
+                cardParams = cardForm?.cardParams?.card
             } else {
-                self.cardParams = nil
+                cardParams = nil
             }
-            onFormComplete!(cardData as [AnyHashable : Any])
+            onFormComplete!(cardData as [AnyHashable: Any])
         }
     }
-    
+
     func focus() {
         let _ = cardForm?.becomeFirstResponder()
     }
-    
+
     func blur() {
         let _ = cardForm?.resignFirstResponder()
     }
-    
+
     func setStyles() {
         if let backgroundColor = cardStyle["backgroundColor"] as? String {
             cardForm?.backgroundColor = UIColor(hexString: backgroundColor)
@@ -85,13 +86,13 @@ import Stripe
         /**
          The following reveals a bug in STPCardFormView where there's a extra space in the layer,
          and thus must remain commented out for now.
-         
+
          if let borderWidth = cardStyle["borderWidth"] as? Int {
          cardForm?.layer.borderWidth = CGFloat(borderWidth)
          } else {
          cardForm?.layer.borderWidth = CGFloat(0)
          }
-         
+
          */
         if let borderColor = cardStyle["borderColor"] as? String {
             cardForm?.layer.borderColor = UIColor(hexString: borderColor).cgColor
@@ -106,16 +107,16 @@ import Stripe
         //     cardForm?.disabledBackgroundColor = UIColor(hexString: disabledBackgroundColor)
         // }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
-    public override func layoutSubviews() {
-        cardForm?.frame = self.bounds
+
+    override public func layoutSubviews() {
+        cardForm?.frame = bounds
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable) required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

@@ -17,7 +17,7 @@ using namespace facebook::react;
 @end
 
 @implementation RNCardFormView {
-   RNCardFormView *_view;
+   CardFormView *_view;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
@@ -31,7 +31,7 @@ using namespace facebook::react;
    if (self) {
        static const auto defaultProps = std::make_shared<const RNCardFormViewProps>();
        _props = defaultProps;
-       _view = [[RNCardFormView alloc] init];
+       _view = [[CardFormView alloc] init];
        self.contentView = _view;
    }
 
@@ -71,29 +71,33 @@ using namespace facebook::react;
 //        _view.style = newViewProps.style;
 //    }
 //
-//   if (_view.autofocus != newViewProps.autofocus) {
-//       _view.autofocus = newViewProps.autofocus;
-//   }
-//    
+   if (_view.autofocus != newViewProps.autofocus) {
+       _view.autofocus = newViewProps.autofocus;
+   }
+    
 //    if (_view.testID != newViewProps.testID) {
 //        _view.testID = newViewProps.testID;
 //    }
-//
-//    if (_view.disabled != newViewProps.disabled) {
-//        _view.disabled = newViewProps.disabled;
-//    }
+
+    if (_view.disabled != newViewProps.disabled) {
+        _view.disabled = newViewProps.disabled;
+    }
    
 //    if (_view.cardStyle != newViewProps.cardStyle) {
 //        _view.cardStyle = newViewProps.cardStyle;
 //    }
-//
-//    if (_view.preferredNetworks != newViewProps.preferredNetworks) {
-//        _view.preferredNetworks = newViewProps.preferredNetworks;
+
+//    if (_view.preferredNetworks != newViewPr ops.preferredNetworks) { // easy way to compare without iterating?
+        NSMutableArray<NSNumber *> *array = [NSMutableArray arrayWithCapacity:newViewProps.preferredNetworks.size()];
+        for (int value : newViewProps.preferredNetworks) {
+            [array addObject:@(value)];
+        }
+        _view.preferredNetworks = array;
 //    }
-//    
-//    if (_view.dangerouslyGetFullCardDetails != newViewProps.dangerouslyGetFullCardDetails) {
-//        _view.dangerouslyGetFullCardDetails = newViewProps.dangerouslyGetFullCardDetails;
-//    }
+    
+    if (_view.dangerouslyGetFullCardDetails != newViewProps.dangerouslyGetFullCardDetails) {
+        _view.dangerouslyGetFullCardDetails = newViewProps.dangerouslyGetFullCardDetails;
+    }
    
    [super updateProps:props oldProps:oldProps];
 }
