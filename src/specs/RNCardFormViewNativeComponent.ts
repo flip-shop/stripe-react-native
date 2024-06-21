@@ -52,24 +52,22 @@ type DefaultValues = Readonly<{
 }>;
 
 type CardDetails = Readonly<{
-  card: Readonly<{
-    readonly last4: string;
-    readonly expiryMonth: Int32;
-    readonly expiryYear: Int32;
-    readonly postalCode?: string;
-    readonly brand: string;
-    readonly complete: boolean;
-    readonly country: string;
-    // /**
-    //  * WARNING: Full card details are only returned when the `dangerouslyGetFullCardDetails` prop
-    //  * on the `CardField` component is set to `true`.
-    //  * Only do this if you're certain that you fulfill the necessary PCI compliance requirements.
-    //  * Make sure that you're not mistakenly logging or storing full card details!
-    //  * See the docs for details: https://stripe.com/docs/security/guide#validating-pci-compliance
-    //  */
-    readonly number?: string;
-    readonly cvc?: string;
-  }>;
+  readonly last4: string;
+  readonly expiryMonth: Int32;
+  readonly expiryYear: Int32;
+  readonly postalCode?: string;
+  readonly brand: string;
+  readonly complete: boolean;
+  readonly country: string;
+  // /**
+  //  * WARNING: Full card details are only returned when the `dangerouslyGetFullCardDetails` prop
+  //  * on the `CardField` component is set to `true`.
+  //  * Only do this if you're certain that you fulfill the necessary PCI compliance requirements.
+  //  * Make sure that you're not mistakenly logging or storing full card details!
+  //  * See the docs for details: https://stripe.com/docs/security/guide#validating-pci-compliance
+  //  */
+  readonly number?: string;
+  readonly cvc?: string;
 }>;
 
 type Styles = Readonly<{

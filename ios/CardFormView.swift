@@ -1,8 +1,8 @@
 import Foundation
 import Stripe
-import UIKit
 
 @objc public class CardFormView: UIView, STPCardFormViewDelegate {
+    @objc public weak var eventDelegate: RNCardFormViewDirectEventDelegate?
     public var cardForm: STPCardFormView?
 
     public var cardParams: STPPaymentMethodCardParams? = nil
@@ -46,29 +46,29 @@ import UIKit
     }
 
     public func cardFormView(_ form: STPCardFormView, didChangeToStateComplete complete: Bool) {
-        if onFormComplete != nil {
-            let brand = STPCardValidator.brand(forNumber: cardForm?.cardParams?.card?.number ?? "")
-            var cardData: [String: Any?] = [
-                "expiryMonth": cardForm?.cardParams?.card?.expMonth ?? NSNull(),
-                "expiryYear": cardForm?.cardParams?.card?.expYear ?? NSNull(),
-                "complete": complete,
-                "brand": Mappers.mapFromCardBrand(brand) ?? NSNull(),
-                "last4": cardForm?.cardParams?.card?.last4 ?? "",
-                "postalCode": cardForm?.cardParams?.billingDetails?.address?.postalCode ?? "",
-                "country": cardForm?.cardParams?.billingDetails?.address?.country,
-            ]
-
-            if dangerouslyGetFullCardDetails {
-                cardData["number"] = cardForm?.cardParams?.card?.number ?? ""
-                cardData["cvc"] = cardForm?.cardParams?.card?.cvc ?? ""
-            }
-            if complete {
-                cardParams = cardForm?.cardParams?.card
-            } else {
-                cardParams = nil
-            }
-            onFormComplete!(cardData as [AnyHashable: Any])
+        let brand = STPCardValidator.brand(forNumber: cardForm?.cardParams?.card?.number ?? "")
+        var number: String?
+        var cvc: String?
+        if dangerouslyGetFullCardDetails {
+            number = cardForm?.cardParams?.card?.number ?? ""
+            cvc = cardForm?.cardParams?.card?.cvc ?? ""
         }
+        if complete {
+            cardParams = cardForm?.cardParams?.card
+        } else {
+            cardParams = nil
+        }
+        onFormCompleteEvent(
+            expiryMonth: cardForm?.cardParams?.card?.expMonth,
+            expiryYear: cardForm?.cardParams?.card?.expYear,
+            complete: complete,
+            brand: Mappers.mapFromCardBrand(brand),
+            last4: cardForm?.cardParams?.card?.last4,
+            postalCode: cardForm?.cardParams?.billingDetails?.address?.postalCode ?? "",
+            country: cardForm?.cardParams?.billingDetails?.address?.country,
+            number: number,
+            cvc: cvc
+        )
     }
 
     func focus() {

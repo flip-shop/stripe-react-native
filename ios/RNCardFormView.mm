@@ -13,8 +13,7 @@
 
 using namespace facebook::react;
 
-@interface RNCardFormView () <RCTRNCardFormViewViewProtocol>
-// @interface RNCardFormView () <RNCardFormViewDirectEventDelegate, RCTRNCardFormViewViewProtocol>
+@interface RNCardFormView () <RNCardFormViewDirectEventDelegate, RCTRNCardFormViewViewProtocol>
 @end
 
 @implementation RNCardFormView {
@@ -33,6 +32,7 @@ using namespace facebook::react;
        static const auto defaultProps = std::make_shared<const RNCardFormViewProps>();
        _props = defaultProps;
        _view = [[CardFormView alloc] init];
+       _view.eventDelegate = self;
        self.contentView = _view;
    }
 
@@ -57,10 +57,6 @@ using namespace facebook::react;
    const auto &oldViewProps = *std::static_pointer_cast<RNCardFormViewProps const>(_props);
    const auto &newViewProps = *std::static_pointer_cast<RNCardFormViewProps const>(props);
 
-//    if (_view.style != newViewProps.style) {
-//        _view.style = newViewProps.style;
-//    }
-//
    if (_view.autofocus != newViewProps.autofocus) {
        _view.autofocus = newViewProps.autofocus;
    }
@@ -111,127 +107,31 @@ Class<RCTComponentViewProtocol> RNCardFormViewCls(void)
 }
 
 //MARK: RNCardFormViewDirectEventDelegate
-
-// - (void)onEndEvent {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onEnd( RNCardFormViewEventEmitter::OnEnd{});
-//     }
-
-// }
-
-
-// - (void)onErrorEventWithErrorMessage:(NSString * _Nonnull)errorMessage errorLog:(NSString * _Nonnull)errorLog errorCode:(NSString * _Nonnull)errorCode lastState:(NSString * _Nonnull)lastState hlsError:(NSString * _Nonnull)hlsError url:(NSString * _Nonnull)url rx:(float)rx ry:(float)ry currentTime:(double)currentTime {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onError(RNCardFormViewEventEmitter::OnError{
-//             .errorMessage = std::string([errorMessage UTF8String]),
-//             .errorLog = std::string([errorLog UTF8String]),
-//             .errorCode = std::string([errorCode UTF8String]),
-//             .lastState = std::string([lastState UTF8String]),
-//             .hlsError = std::string([hlsError UTF8String]),
-//             .url = std::string([url UTF8String]),
-//             .rx = static_cast<Float>(rx),
-//             .ry = static_cast<Float>(ry),
-//             .currentTime = static_cast<double>(currentTime),
-//         });
-//     }
-// }
+- (void)onFormCompleteEventWithExpiryMonth:(NSNumber *)expiryMonth 
+                                expiryYear:(NSNumber *)expiryYear
+                                  complete:(BOOL)complete
+                                     brand:(NSString *)brand
+                                     last4:(NSString *)last4
+                                postalCode:(NSString *)postalCode
+                                   country:(NSString *)country
+                                    number:(NSString *)number
+                                       cvc:(NSString *)cvc {
 
 
-// - (void)onHeadphonesDisconnectedEvent {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onHeadphonesDisconnected( RNCardFormViewEventEmitter::OnHeadphonesDisconnected{});
-//     }
-// }
-
-
-// - (void)onLoadEventWithSeekableDuration:(double)seekableDuration currentPosition:(double)currentPosition rx:(float)rx ry:(float)ry {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onLoad(RNCardFormViewEventEmitter::OnLoad{
-//             .seekableDuration = static_cast<double>(seekableDuration),
-//             .currentPosition = static_cast<double>(currentPosition),
-//             .rx = static_cast<Float>(rx),
-//             .ry = static_cast<Float>(ry)
-//         });
-//     }
-// }
-
-
-// - (void)onPlaybackChangedEventWithCurrentTime:(double)currentTime playing:(BOOL)playing rx:(float)rx ry:(float)ry {
-//     if (_eventEmitter) {
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onPlaybackChanged(RNCardFormViewEventEmitter::OnPlaybackChanged{
-//             .currentTime = static_cast<double>(currentTime),
-//             .playing = static_cast<bool>(playing),
-//             .rx = static_cast<Float>(rx),
-//             .ry = static_cast<Float>(ry),
-//         });
-//     }
-// }
-
-// - (void)onLoadStartEvent {
-//     if (_eventEmitter) {
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onLoadStart( RNCardFormViewEventEmitter::OnLoadStart{});
-//     }
-// }
-
-// - (void)onBufferEventWithIsBuffering:(BOOL)isBuffering currentTime:(double)currentTime rx:(float)rx ry:(float)ry {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onBuffer( RNCardFormViewEventEmitter::OnBuffer{
-//             .currentTime = static_cast<double>(currentTime),
-//             .isBuffering = static_cast<bool>(isBuffering),
-//             .rx = static_cast<Float>(rx),
-//             .ry = static_cast<Float>(ry)
-//         });
-//     }
-// }
-
-
-// - (void)onProgressEventWithCurrentTime:(double)currentTime seekableDuration:(double)seekableDuration {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(self->_eventEmitter)
-//         ->onProgress(RNCardFormViewEventEmitter::OnProgress{
-//             .currentTime = static_cast<double>(currentTime),
-//             .seekableDuration = static_cast<double>(seekableDuration)
-//         });
-//     }
-// }
-
-
-// - (void)onSeekEventWithCurrentTime:(double)currentTime time:(double)time {
-//     if(_eventEmitter){
-//         std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
-//         ->onSeek(RNCardFormViewEventEmitter::OnSeek{
-//             .currentTime = static_cast<double>(currentTime),
-//             .time = static_cast<double>(time)
-//         });
-//     }
-// }
-
-// - (void)handleCommand:(const NSString *)commandName args:(const NSArray *)args {
-//     RCTRNCardFormViewHandleCommand(self, commandName, args);
-// }
-
-// - (void)goLive {
-//     [_swiftPlayer goLive];
-// }
-
-// - (void)seek:(double)time {
-//     [_swiftPlayer seek:time];
-// }
-
-// - (void)seekWithTolerance:(double)time toleranceBefore:(double)toleranceBefore toleranceAfter:(double)toleranceAfter {
-//     [_swiftPlayer seek:time toleranceBefore:toleranceBefore toleranceAfter:toleranceAfter];
-// }
-
-// - (void)seekBy:(double)time {
-//     [_swiftPlayer seekBy:time];
-// }
-
+    if(_eventEmitter) {
+        std::dynamic_pointer_cast<const RNCardFormViewEventEmitter>(_eventEmitter)
+        ->onFormComplete(RNCardFormViewEventEmitter::OnFormComplete{
+            .expiryMonth = static_cast<int>(expiryMonth.intValue),
+            .expiryYear = static_cast<int>(expiryYear.intValue),
+            .complete = static_cast<bool>(complete),
+            .brand = std::string(brand.UTF8String),
+            .last4 = std::string(last4.UTF8String),
+            .postalCode = std::string(postalCode.UTF8String),
+            .country = std::string(country.UTF8String),
+            .number = std::string(number.UTF8String),
+            .cvc = std::string(cvc.UTF8String)
+        });
+    }
+}
 @end
 #endif
