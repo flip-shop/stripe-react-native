@@ -21,10 +21,12 @@ import {
   registerInput,
   unregisterInput,
 } from '../helpers';
-import { Commands } from 'src/specs/RNCardFormViewNativeComponent';
+import CardFormNative, {
+  Commands,
+} from 'src/specs/RNCardFormViewNativeComponent';
 
-const CardFormNative =
-  requireNativeComponent<CardFormView.NativeProps>('CardForm');
+// const CardFormNative =
+// requireNativeComponent<CardFormView.NativeProps>('CardForm');
 
 /**
  *  Card Form Component Props
