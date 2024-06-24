@@ -133,5 +133,17 @@ Class<RCTComponentViewProtocol> RNCardFormViewCls(void)
         });
     }
 }
+
+- (void)handleCommand:(const NSString *)commandName args:(const NSArray *)args {
+    RCTRNCardFormViewHandleCommand(self, commandName, args);
+}
+
+- (void)blur {
+    [_view blur];
+}
+
+- (void)focus {
+    [_view focus];
+}
 @end
 #endif

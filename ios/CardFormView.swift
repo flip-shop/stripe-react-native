@@ -71,11 +71,11 @@ import Stripe
         )
     }
 
-    func focus() {
+    @objc public func focus() {
         let _ = cardForm?.becomeFirstResponder()
     }
 
-    func blur() {
+    @objc public func blur() {
         let _ = cardForm?.resignFirstResponder()
     }
 

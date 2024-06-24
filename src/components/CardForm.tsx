@@ -21,6 +21,7 @@ import {
   registerInput,
   unregisterInput,
 } from '../helpers';
+import { Commands } from 'src/specs/RNCardFormViewNativeComponent';
 
 const CardFormNative =
   requireNativeComponent<CardFormView.NativeProps>('CardForm');
@@ -120,19 +121,27 @@ export const CardForm = forwardRef<CardFormView.Methods, Props>(
     );
 
     const focus = () => {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(inputRef.current),
-        'focus' as any,
-        []
-      );
+      // UIManager.dispatchViewManagerCommand(
+      //   findNodeHandle(inputRef.current),
+      //   'focus' as any,
+      //   []
+      // );
+
+      if (inputRef.current != null) {
+        Commands.focus(inputRef.current);
+      }
     };
 
     const blur = () => {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(inputRef.current),
-        'blur' as any,
-        []
-      );
+      // UIManager.dispatchViewManagerCommand(
+      //   findNodeHandle(inputRef.current),
+      //   'blur' as any,
+      //   []
+      // );
+
+      if (inputRef.current != null) {
+        Commands.blur(inputRef.current);
+      }
     };
 
     useImperativeHandle(ref, () => ({
