@@ -1,34 +1,25 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTViewManager.h>
-
-#ifdef RCT_NEW_ARCH_ENABLED
-//#import "RNCardFormView.h"
-#endif
-
 #import "STPCardFormViewDelegate.h"
 #import "stripe_react_native-Swift.h"
 
-//@interface CardFormManager : RCTViewManager
 
-// @end
+#ifdef RCT_NEW_ARCH_ENABLED
 
-// @implementation CardFormManager
+#import "RNCardFormView.h"
+@interface CardFormManagerNewArch : RCTViewManager
+
+@end
+@implementation CardFormManagerNewArch
+RCT_EXPORT_MODULE(RNCardFormView)
+- (UIView *)view {
+  return [[RNCardFormView alloc] init];
+}
+
+#else
 @interface RCT_EXTERN_MODULE(CardFormManager, RCTViewManager)
-
-//#ifdef RCT_NEW_ARCH_ENABLED
-//RCT_EXPORT_MODULE(RNCardFormView)
-//- (UIView *)view {
-//  return [[RNCardFormView alloc] init];
-//}
-//#else
-//// Non fabic implementation
-//RCT_EXPORT_MODULE(CardFormView)
-//- (UIView *)view {
-//  return [[CardFormView alloc] init];
-//}
-//#endif
-
+#endif
 
 RCT_EXPORT_VIEW_PROPERTY(onFormComplete, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(dangerouslyGetFullCardDetails, BOOL)
