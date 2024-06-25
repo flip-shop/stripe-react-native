@@ -12,7 +12,7 @@
 
 @end
 @implementation CardFormManagerNewArch
-RCT_EXPORT_MODULE(RNCardFormView)
+RCT_EXPORT_MODULE(CardForm)
 - (UIView *)view {
   return [[RNCardFormView alloc] init];
 }
