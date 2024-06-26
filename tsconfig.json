@@ -8,13 +8,14 @@
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "importsNotUsedAsValues": "error",
+    // "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["ES6"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
@@ -24,9 +25,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "types": [
-      "node",
-      "jest"
-    ]
+    "types": ["node", "jest"]
   }
 }

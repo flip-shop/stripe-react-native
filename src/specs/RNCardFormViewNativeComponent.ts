@@ -1,5 +1,5 @@
 import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
-import type { HostComponent, StyleProp, ViewStyle } from 'react-native';
+import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
 import type {
@@ -7,8 +7,7 @@ import type {
   Int32,
   Float,
 } from 'react-native/Libraries/Types/CodegenTypes';
-// import type { CardFormView, CardBrand } from '../types';
-import React from 'react';
+import type React from 'react';
 
 export interface NativeProps extends ViewProps {
   // readonly style?: StyleProp<ViewStyle>;
@@ -85,14 +84,14 @@ type Styles = Readonly<{
   readonly fontFamily?: string;
 }>;
 
-enum CardBrand {
-  JCB = 0,
-  Amex = 1,
-  CartesBancaires = 2,
-  DinersClub = 3,
-  Discover = 4,
-  Mastercard = 5,
-  UnionPay = 6,
-  Visa = 7,
-  Unknown = 8,
-}
+// enum CardBrand {
+//   JCB = 0,
+//   Amex = 1,
+//   CartesBancaires = 2,
+//   DinersClub = 3,
+//   Discover = 4,
+//   Mastercard = 5,
+//   UnionPay = 6,
+//   Visa = 7,
+//   Unknown = 8,
+// }

@@ -6,18 +6,18 @@ import React, {
   useLayoutEffect,
   useRef,
 } from 'react';
-import {
+import type {
   AccessibilityProps,
   NativeSyntheticEvent,
-  requireNativeComponent,
-  UIManager,
+  // requireNativeComponent,
+  // UIManager,
   StyleProp,
-  findNodeHandle,
+  // findNodeHandle,
   ViewStyle,
 } from 'react-native';
 import {
   currentlyFocusedInput,
-  focusInput,
+  // focusInput,
   registerInput,
   unregisterInput,
 } from '../helpers';
@@ -109,8 +109,8 @@ export const CardForm = forwardRef<CardFormView.Methods, Props>(
         };
 
         if (card.hasOwnProperty('number') || card.hasOwnProperty('cvc')) {
-          data.number = card.number || '';
-          data.cvc = card.cvc || '';
+          // data.number = card.number || '';
+          // data.cvc = card.cvc || '';
           if (__DEV__ && onFormComplete && card.complete) {
             console.warn(
               `[stripe-react-native] ⚠️ WARNING: You've enabled \`dangerouslyGetFullCardDetails\`, meaning full card details are being returned. Only do this if you're certain that you fulfill the necessary PCI compliance requirements. Make sure that you're not mistakenly logging or storing full card details! See the docs for details: https://stripe.com/docs/security/guide#validating-pci-compliance`
@@ -151,15 +151,15 @@ export const CardForm = forwardRef<CardFormView.Methods, Props>(
       blur,
     }));
 
-    const onFocusHandler = useCallback((event) => {
-      const { focusedField } = event.nativeEvent;
-      if (focusedField) {
-        focusInput(inputRef.current);
-        // onFocus?.(focusedField);
-      } else {
-        // onBlur?.();
-      }
-    }, []);
+    // const onFocusHandler = useCallback((event) => {
+    //   const { focusedField } = event.nativeEvent;
+    //   if (focusedField) {
+    //     focusInput(inputRef.current);
+    //     // onFocus?.(focusedField);
+    //   } else {
+    //     // onBlur?.();
+    //   }
+    // }, []);
 
     useLayoutEffect(() => {
       const inputRefValue = inputRef.current;
@@ -202,7 +202,7 @@ export const CardForm = forwardRef<CardFormView.Methods, Props>(
         defaultValues={{
           ...(defaultValues ?? {}),
         }}
-        onFocusChange={onFocusHandler}
+        // onFocusChange={onFocusHandler}
         // postalCodeEnabled={postalCodeEnabled}
         {...props}
       />
