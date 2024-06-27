@@ -23,7 +23,7 @@ import {
 } from '../helpers';
 import CardFormNative, {
   Commands,
-} from 'src/specs/RNCardFormViewNativeComponent';
+} from '../specs/RNCardFormViewNativeComponent';
 
 // const CardFormNative =
 // requireNativeComponent<CardFormView.NativeProps>('CardForm');
