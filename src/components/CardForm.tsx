@@ -41,6 +41,7 @@ export interface Props extends AccessibilityProps {
   preferredNetworks?: Array<CardBrand>;
   // TODO: will make it public when iOS SDK allows for this
   // postalCodeEnabled?: boolean;
+  cardScanOptions?: CardFormView.CardScanOptions;
 
   /** Android only */
   placeholders?: CardFormView.Placeholders;
