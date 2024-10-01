@@ -44,6 +44,11 @@ export interface Placeholders {
   postalCode?: string;
 }
 
+export interface CardScanOptions {
+  cardScanEnabled?: boolean;
+  stripePublishableKey?: string;
+}
+
 export type DefaultValues = {
   /** The 2-letter country code for the country selected by default on Android. If this is null, it is set by the device's configured region in the Settings app. */
   countryCode?: string;
