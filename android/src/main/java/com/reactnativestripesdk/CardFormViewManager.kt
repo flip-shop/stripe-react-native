@@ -67,6 +67,16 @@ class CardFormViewManager : SimpleViewManager<CardFormView>() {
     view.setPreferredNetworks(networks)
   }
 
+  @ReactProp(name = "cardScanOptions")
+  fun setCardScanOptions(view: CardFormView, cardScanOptions: ReadableMap) {
+    val cardScanEnabled = cardScanOptions.getBoolean("cardScanEnabled")
+    val stripePublishableKey = cardScanOptions.getString("stripePublishableKey")
+
+    if (cardScanEnabled && !stripePublishableKey.isNullOrEmpty()) {
+      view.setCardScanMode(true, stripePublishableKey)
+    }
+  }
+
   override fun createViewInstance(reactContext: ThemedReactContext): CardFormView {
     val stripeSdkModule: StripeSdkModule? = reactContext.getNativeModule(StripeSdkModule::class.java)
     val view = CardFormView(reactContext)

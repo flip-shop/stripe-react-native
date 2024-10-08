@@ -5,10 +5,15 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.text.InputFilter
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.setMargins
+import androidx.fragment.app.FragmentActivity
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.PixelUtil
 import com.facebook.react.uimanager.ThemedReactContext
@@ -18,17 +23,19 @@ import com.facebook.react.views.text.ReactTypefaceUtils
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
+import com.reactnativestripesdk.cardscan.CardScanDialogFragment
+import com.reactnativestripesdk.cardscan.CardScanResultListener
 import com.reactnativestripesdk.utils.*
-import com.reactnativestripesdk.utils.mapCardBrand
 import com.stripe.android.core.model.CountryCode
-import com.stripe.android.databinding.StripeCardMultilineWidgetBinding
 import com.stripe.android.databinding.StripeCardFormViewBinding
+import com.stripe.android.databinding.StripeCardMultilineWidgetBinding
 import com.stripe.android.model.Address
 import com.stripe.android.model.PaymentMethodCreateParams
+import com.stripe.android.stripecardscan.payment.card.ScannedCard
 import com.stripe.android.view.CardFormView
 import com.stripe.android.view.CardInputListener
 
-class CardFormView(context: ThemedReactContext) : FrameLayout(context) {
+class CardFormView(context: ThemedReactContext) : FrameLayout(context), CardScanResultListener {
   private var cardForm: CardFormView = CardFormView(context, null, com.stripe.android.R.style.StripeCardFormView_Borderless)
   private var mEventDispatcher: EventDispatcher? = context.getNativeModule(UIManagerModule::class.java)?.eventDispatcher
   private var dangerouslyGetFullCardDetails: Boolean = false
@@ -37,6 +44,7 @@ class CardFormView(context: ThemedReactContext) : FrameLayout(context) {
   var cardAddress: Address? = null
   private val cardFormViewBinding = StripeCardFormViewBinding.bind(cardForm)
   private val multilineWidgetBinding = StripeCardMultilineWidgetBinding.bind(cardFormViewBinding.cardMultilineWidget)
+  private var stripePublishableKey: String = ""
 
   init {
     cardFormViewBinding.cardMultilineWidgetContainer.isFocusable = true
@@ -223,6 +231,37 @@ class CardFormView(context: ThemedReactContext) : FrameLayout(context) {
     }
   }
 
+  @SuppressLint("ClickableViewAccessibility")
+  private fun setupCardScanTextView() {
+    val linearLayout = LinearLayout(context).apply {
+      gravity = android.view.Gravity.END
+      orientation = LinearLayout.HORIZONTAL
+      layoutParams = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+      )
+    }
+
+    val scanButton = Button(context).apply {
+      setBackgroundColor(Color.TRANSPARENT)
+      text = "Scan card"
+      isAllCaps = false
+
+      setOnTouchListener { view, event ->
+        when (event.action) {
+          MotionEvent.ACTION_DOWN -> view.alpha = 0.5f
+          MotionEvent.ACTION_UP -> view.alpha = 1.0f
+        }
+        false
+      }
+
+      setOnClickListener { showCardScan() }
+    }
+
+    linearLayout.addView(scanButton)
+    cardForm.addView(linearLayout, 0)
+  }
+
   fun setDangerouslyGetFullCardDetails(isEnabled: Boolean) {
     dangerouslyGetFullCardDetails = isEnabled
   }
@@ -287,6 +326,48 @@ class CardFormView(context: ThemedReactContext) : FrameLayout(context) {
     }
   }
 
+  private fun showCardScan() {
+    val currentActivity = (context as? ThemedReactContext)?.reactApplicationContext?.currentActivity
+    (currentActivity as? FragmentActivity)?.let { activity ->
+      val fragment = (activity.supportFragmentManager.findFragmentByTag(
+        CardScanDialogFragment.TAG
+      ) as? CardScanDialogFragment) ?: CardScanDialogFragment.newInstance(
+        this,
+        stripePublishableKey
+      )
+
+      fragment.show(
+        activity.supportFragmentManager,
+        CardScanDialogFragment.TAG
+      )
+    }
+  }
+
+  override fun onCardScanned(card: ScannedCard) {
+    multilineWidgetBinding.etCardNumber.setText(card.pan)
+    dismissCardScanDialogFragment()
+  }
+
+  override fun onCardScannerDismissed() {
+    dismissCardScanDialogFragment()
+  }
+
+  override fun onCardScannedError(error: Throwable) {
+    Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
+    dismissCardScanDialogFragment()
+  }
+
+  private fun dismissCardScanDialogFragment() {
+    val currentActivity = (context as? ThemedReactContext)?.reactApplicationContext?.currentActivity
+    if (currentActivity?.isFinishing == true) return
+    (currentActivity as? FragmentActivity)?.let { activity ->
+      val fragment = activity.supportFragmentManager.findFragmentByTag(CardScanDialogFragment.TAG)
+      if (fragment != null && fragment is CardScanDialogFragment) {
+        fragment.dismiss()
+      }
+    }
+  }
+
   private fun setPostalCodeFilter() {
     cardFormViewBinding.postalCode.filters = arrayOf(
       *cardFormViewBinding.postalCode.filters,
@@ -314,6 +395,13 @@ class CardFormView(context: ThemedReactContext) : FrameLayout(context) {
   override fun requestLayout() {
     super.requestLayout()
     post(mLayoutRunnable)
+  }
+
+  fun setCardScanMode(isEnabled: Boolean, key: String?) {
+    key?.let {
+      stripePublishableKey = it
+      setupCardScanTextView()
+    }
   }
 
   private val mLayoutRunnable = Runnable {
